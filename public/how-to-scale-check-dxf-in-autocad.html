@@ -1,0 +1,380 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>How to Scale and Check DXF Drawings in AutoCAD | PDF2CAD Online</title>
+
+  <meta name="description" content="Learn how to check DXF drawing units, measure dimensions, correct scale and inspect converted PDF drawings in AutoCAD.">
+
+  <link rel="canonical" href="https://pdf-to-dxf.pages.dev/how-to-scale-check-dxf-in-autocad.html">
+
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      line-height: 1.7;
+      color: #263445;
+      background: #f0f4f8;
+    }
+
+    header {
+      background: #123b64;
+      color: white;
+      text-align: center;
+      padding: 22px 15px;
+    }
+
+    main {
+      max-width: 900px;
+      margin: 30px auto;
+      padding: 35px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 3px 14px rgba(0,0,0,0.06);
+    }
+
+    h2 {
+      color: #123b64;
+      margin-top: 30px;
+    }
+
+    h3 {
+      color: #234e75;
+      margin-top: 22px;
+    }
+
+    a {
+      color: #0876c9;
+      text-decoration: none;
+    }
+
+    a:hover { text-decoration: underline; }
+
+    .cta {
+      display: inline-block;
+      margin: 12px 0;
+      padding: 12px 20px;
+      background: #0876c9;
+      color: white;
+      border-radius: 6px;
+      font-weight: bold;
+    }
+
+    .cta:hover {
+      background: #075b99;
+      text-decoration: none;
+    }
+
+    .note {
+      background: #edf5fc;
+      border-left: 4px solid #0876c9;
+      padding: 14px 18px;
+      margin: 20px 0;
+    }
+
+    footer {
+      text-align: center;
+      padding: 25px 15px;
+      color: #64748b;
+      font-size: 14px;
+    }
+
+    footer a { margin: 0 7px; }
+
+    @media (max-width: 600px) {
+      main {
+        margin: 15px;
+        padding: 22px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>PDF2CAD Online – CAD Guides</h1>
+</header>
+
+<main>
+
+  <h1>How to Scale and Check DXF Drawings in AutoCAD</h1>
+
+  <p>
+    After converting a PDF drawing into DXF format, it is important to
+    check the drawing before using it in an architectural, engineering
+    or construction project. A DXF file may open successfully in AutoCAD,
+    but its geometry, dimensions or scale may still need correction.
+  </p>
+
+  <p>
+    This guide explains how to inspect a converted DXF drawing, check
+    measurement accuracy, understand drawing units and correct scale
+    using AutoCAD commands.
+  </p>
+
+  <h2>Why should you check a converted DXF drawing?</h2>
+
+  <p>
+    PDF-to-DXF conversion can produce geometry that differs from the
+    original drawing. Some elements may be missing, disconnected,
+    incorrectly positioned or converted into unexpected objects.
+  </p>
+
+  <p>
+    Checking the file helps identify these issues before the drawing
+    is used for further drafting or coordination.
+  </p>
+
+  <h2>Step 1: Open the DXF file in AutoCAD</h2>
+
+  <ol>
+    <li>Start AutoCAD.</li>
+    <li>Use the Open command or press Ctrl + O.</li>
+    <li>Select your converted DXF file.</li>
+    <li>Wait for the drawing to load.</li>
+    <li>Use Zoom Extents to display the drawing.</li>
+  </ol>
+
+  <p>
+    If the drawing appears too small, too large or outside the visible
+    area, Zoom Extents can help locate the geometry.
+  </p>
+
+  <h2>Step 2: Check the drawing units</h2>
+
+  <p>
+    Use the UNITS command to inspect the drawing's unit settings.
+    Depending on the original project, dimensions may be intended
+    to represent millimetres, centimetres, metres or inches.
+  </p>
+
+  <p>
+    Remember that the UNITS command controls drawing settings and
+    display precision. Changing the unit setting alone does not
+    automatically resize existing geometry.
+  </p>
+
+  <div class="note">
+    <strong>Important:</strong> Always identify the intended project
+    units before scaling a drawing. Do not assume that every DXF
+    file uses millimetres.
+  </div>
+
+  <h2>Step 3: Measure a known dimension</h2>
+
+  <p>
+    Find a dimension that is clearly identified in the original PDF.
+    Use the DIST command in AutoCAD to measure the corresponding
+    distance between two points in the DXF drawing.
+  </p>
+
+  <ol>
+    <li>Type DIST and press Enter.</li>
+    <li>Select the first endpoint.</li>
+    <li>Select the second endpoint.</li>
+    <li>Read the measured distance in the command line.</li>
+    <li>Compare it with the known original dimension.</li>
+  </ol>
+
+  <p>
+    Choose a reliable measurement, such as a clearly marked room
+    width or grid spacing, rather than estimating a distance visually.
+  </p>
+
+  <h2>Step 4: Calculate the required scale factor</h2>
+
+  <p>
+    If the measured distance does not match the known dimension,
+    calculate the required scale factor before making changes.
+  </p>
+
+  <p><strong>Scale factor = Actual required distance ÷ Current measured distance</strong></p>
+
+  <p>For example:</p>
+
+  <ul>
+    <li>Known original dimension: 5000 mm</li>
+    <li>Current measured dimension: 2500 units</li>
+    <li>Required scale factor: 5000 ÷ 2500 = 2</li>
+  </ul>
+
+  <p>
+    In this example, a scale factor of 2 would make the measured
+    distance equal to 5000 drawing units, assuming the intended
+    unit is millimetres.
+  </p>
+
+  <h2>Step 5: Correct the scale using the SCALE command</h2>
+
+  <ol>
+    <li>Type SCALE and press Enter.</li>
+    <li>Select the objects that need scaling.</li>
+    <li>Press Enter to finish object selection.</li>
+    <li>Choose a suitable base point.</li>
+    <li>Enter the calculated scale factor.</li>
+    <li>Press Enter to apply the scale.</li>
+  </ol>
+
+  <p>
+    Measure the same known dimension again with DIST to confirm
+    whether the correction produced the intended result.
+  </p>
+
+  <div class="note">
+    Work on a copy of the original DXF before changing its scale.
+    If the drawing has inconsistent distortion, a single scale
+    factor may not correct every dimension.
+  </div>
+
+  <h2>Step 6: Inspect lines and geometry</h2>
+
+  <p>
+    After checking the scale, inspect the drawing carefully.
+    Look for missing linework, overlapping objects, unwanted
+    marks and disconnected geometry.
+  </p>
+
+  <ul>
+    <li>Check whether important lines and polylines are connected.</li>
+    <li>Look for duplicate or overlapping geometry.</li>
+    <li>Inspect arcs and curves for unexpected shapes.</li>
+    <li>Check text, dimensions and symbols.</li>
+    <li>Remove unwanted objects where appropriate.</li>
+  </ul>
+
+  <h2>Useful AutoCAD commands for checking DXF drawings</h2>
+
+  <ul>
+    <li><strong>ZOOM:</strong> Changes the drawing view.</li>
+    <li><strong>UNITS:</strong> Displays drawing unit settings.</li>
+    <li><strong>DIST:</strong> Measures the distance between two points.</li>
+    <li><strong>SCALE:</strong> Resizes selected objects.</li>
+    <li><strong>LIST:</strong> Displays information about selected objects.</li>
+    <li><strong>PURGE:</strong> Removes unused named items from a drawing.</li>
+    <li><strong>OVERKILL:</strong> Helps identify and remove duplicate or overlapping geometry.</li>
+  </ul>
+
+  <h2>Common DXF scale problems</h2>
+
+  <h3>Drawing appears too small</h3>
+  <p>
+    The geometry may have been exported using a different unit
+    or scale. Check a known dimension before applying a correction.
+  </p>
+
+  <h3>Drawing appears too large</h3>
+  <p>
+    The file may use a different unit convention or may have been
+    scaled incorrectly during conversion. Verify the intended units.
+  </p>
+
+  <h3>Dimensions do not match the original PDF</h3>
+  <p>
+    Check the original measurement, the selected endpoints and
+    the PDF conversion result. Some drawings may contain distortion
+    that cannot be corrected with one scale factor.
+  </p>
+
+  <h3>Lines are disconnected or duplicated</h3>
+  <p>
+    Inspect the geometry and clean up the affected areas. Do not
+    assume that converted linework is automatically suitable
+    for professional drafting.
+  </p>
+
+  <h2>Final checklist before using a DXF drawing</h2>
+
+  <ul>
+    <li>Confirm the correct drawing units.</li>
+    <li>Compare at least one known dimension.</li>
+    <li>Verify the scale using reliable project measurements.</li>
+    <li>Inspect important lines, curves and polylines.</li>
+    <li>Check text, dimensions and symbols.</li>
+    <li>Save a separate corrected copy of the drawing.</li>
+  </ul>
+
+  <h2>Frequently asked questions</h2>
+
+  <h3>Does changing UNITS automatically resize a DXF drawing?</h3>
+  <p>
+    No. UNITS changes unit-related settings and display precision.
+    Use SCALE when the existing geometry actually needs resizing.
+  </p>
+
+  <h3>How can I check whether a DXF drawing is at the correct scale?</h3>
+  <p>
+    Use DIST to measure a known dimension and compare it with
+    reliable information from the original drawing.
+  </p>
+
+  <h3>Can I scale only part of a DXF drawing?</h3>
+  <p>
+    Yes. Select the required objects before using SCALE.
+    Make sure the selected objects belong to the same area
+    and require the same scale correction.
+  </p>
+
+  <h3>Is a converted DXF automatically ready for construction?</h3>
+  <p>
+    No. A qualified professional must verify dimensions, geometry,
+    units and project requirements before the drawing is used
+    for construction or other critical work.
+  </p>
+
+  <h2>Try PDF2CAD Online</h2>
+
+  <p>
+    If you have a supported vector PDF drawing, you can try
+    our free online converter to create a DXF file for further
+    checking and editing in AutoCAD.
+  </p>
+
+  <p>
+    <a class="cta" href="https://pdf-to-dxf.pages.dev/">
+      Open PDF to DXF Converter
+    </a>
+  </p>
+
+  <h2>Conclusion</h2>
+
+  <p>
+    Checking the scale and geometry of a converted DXF drawing
+    is an important part of the PDF-to-CAD workflow. Verify
+    drawing units, measure known dimensions and inspect the
+    resulting geometry before using the file in a project.
+  </p>
+
+  <p>
+    Careful checking and correction help make converted drawings
+    more useful for further CAD drafting and coordination.
+  </p>
+
+  <p>
+    <a class="cta" href="https://pdf-to-dxf.pages.dev/">
+      Try PDF2CAD Online – Free Converter
+    </a>
+  </p>
+
+</main>
+
+<footer>
+  <p>
+    <a href="https://pdf-to-dxf.pages.dev/">Home</a>
+    <a href="https://pdf-to-dxf.pages.dev/about.html">About</a>
+    <a href="https://pdf-to-dxf.pages.dev/features.html">Features</a>
+    <a href="https://pdf-to-dxf.pages.dev/contact.html">Contact</a>
+    <a href="https://pdf-to-dxf.pages.dev/privacy-policy.html">Privacy Policy</a>
+    <a href="https://pdf-to-dxf.pages.dev/terms.html">Terms</a>
+  </p>
+
+  <p>© 2026 PDF2CAD Online. All rights reserved.</p>
+</footer>
+
+</body>
+</html>
