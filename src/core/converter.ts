@@ -375,6 +375,91 @@ export function processConstructPath(
     emitSubPath(sub, writer);
   }
 }
+function processPackedPath(
+  data: ArrayLike<number>,
+  writer: DxfWriter,
+  scale: number,
+): void {
+  const subOps: number[] = [];
+  const coords: number[] = [];
+
+  let currentX = 0;
+  let currentY = 0;
+  let startX = 0;
+  let startY = 0;
+
+  let i = 0;
+
+  while (i < data.length) {
+    const op = data[i++];
+
+    switch (op) {
+      case 0: {
+        const x = data[i++];
+        const y = data[i++];
+        subOps.push(PATH_OPS.moveTo);
+        coords.push(x, y);
+        currentX = startX = x;
+        currentY = startY = y;
+        break;
+      }
+
+      case 1: {
+        const x = data[i++];
+        const y = data[i++];
+        subOps.push(PATH_OPS.lineTo);
+        coords.push(x, y);
+        currentX = x;
+        currentY = y;
+        break;
+      }
+
+      case 2: {
+        const x1 = data[i++];
+        const y1 = data[i++];
+        const x2 = data[i++];
+        const y2 = data[i++];
+        const x3 = data[i++];
+        const y3 = data[i++];
+        subOps.push(PATH_OPS.curveTo);
+        coords.push(x1, y1, x2, y2, x3, y3);
+        currentX = x3;
+        currentY = y3;
+        break;
+      }
+
+      case 3: {
+        const qx = data[i++];
+        const qy = data[i++];
+        const x = data[i++];
+        const y = data[i++];
+
+        const x1 = currentX + (2 / 3) * (qx - currentX);
+        const y1 = currentY + (2 / 3) * (qy - currentY);
+        const x2 = x + (2 / 3) * (qx - x);
+        const y2 = y + (2 / 3) * (qy - y);
+
+        subOps.push(PATH_OPS.curveTo);
+        coords.push(x1, y1, x2, y2, x, y);
+        currentX = x;
+        currentY = y;
+        break;
+      }
+
+      case 4: {
+        subOps.push(PATH_OPS.closePath);
+        currentX = startX;
+        currentY = startY;
+        break;
+      }
+
+      default:
+        throw new Error(`Unsupported packed path operator: ${op}`);
+    }
+  }
+
+  processConstructPath(subOps, coords, writer, scale);
+}
 
 // ─── Page processor ─────────────────────────────────────────────────────────
 
@@ -401,8 +486,17 @@ async function processPage(
 
         // pdfjs v4: all path sub-ops are batched into constructPath
         if (fn === pdfjs.OPS.constructPath) {
-          const [subOps, coords] = argsArray[i] as [number[], number[]];
-          processConstructPath(subOps, coords, writer, opts.scale);
+         const pathArgs = argsArray[i] as [
+  number,
+  [Float32Array | null],
+  Float32Array | null,
+];
+
+const packedPath = pathArgs[1]?.[0];
+
+if (packedPath) {
+  processPackedPath(packedPath, writer, opts.scale);
+}
         }
       }
     } catch (err) {
