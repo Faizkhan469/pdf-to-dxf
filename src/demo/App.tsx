@@ -1,12 +1,19 @@
 
 /**
  * PDF2CAD Online — Demo application
- * Professional interface for PDF-to-DXF conversion
+ * Complete homepage with converter and website navigation
  */
 
 import { PdfToDxf } from '../react/PdfToDxf';
 
 export default function App() {
+  const linkStyle = {
+    color: '#174ea6',
+    textDecoration: 'none',
+    fontWeight: 600,
+    padding: '5px',
+  };
+
   return (
     <div
       style={{
@@ -17,6 +24,7 @@ export default function App() {
           'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
       }}
     >
+      {/* HEADER */}
       <header
         style={{
           background: '#ffffff',
@@ -47,6 +55,7 @@ export default function App() {
           >
             📐
           </div>
+
           <div>
             <div
               style={{
@@ -62,6 +71,7 @@ export default function App() {
               Simple PDF to DXF conversion
             </div>
           </div>
+
           <div
             style={{
               marginLeft: 'auto',
@@ -78,6 +88,7 @@ export default function App() {
         </div>
       </header>
 
+      {/* MAIN CONTENT */}
       <main
         style={{
           maxWidth: '1000px',
@@ -85,6 +96,7 @@ export default function App() {
           padding: '48px 20px 32px',
         }}
       >
+        {/* INTRODUCTION */}
         <section style={{ textAlign: 'center', marginBottom: '32px' }}>
           <div
             style={{
@@ -127,6 +139,7 @@ export default function App() {
           </p>
         </section>
 
+        {/* CONVERTER */}
         <section
           style={{
             background: '#ffffff',
@@ -146,6 +159,7 @@ export default function App() {
             >
               PDF to DXF Converter
             </h2>
+
             <p
               style={{
                 fontSize: '14px',
@@ -175,6 +189,7 @@ export default function App() {
           />
         </section>
 
+        {/* HOW IT WORKS */}
         <section
           style={{
             display: 'grid',
@@ -212,6 +227,7 @@ export default function App() {
               <div style={{ fontSize: '24px', marginBottom: '12px' }}>
                 {item.icon}
               </div>
+
               <h3
                 style={{
                   fontSize: '15px',
@@ -221,6 +237,7 @@ export default function App() {
               >
                 {item.title}
               </h3>
+
               <p
                 style={{
                   fontSize: '13px',
@@ -235,6 +252,7 @@ export default function App() {
           ))}
         </section>
 
+        {/* PRIVACY AND CONVERSION TIPS */}
         <section
           style={{
             marginTop: '24px',
@@ -251,33 +269,107 @@ export default function App() {
           process files locally in your browser. This app does not intentionally
           upload your PDF to a conversion server. Avoid sensitive files if you
           have not independently verified the deployed application.
+
           <p style={{ margin: '8px 0 0' }}>
             <strong>Tip:</strong> Vector PDFs generally provide better CAD
             results than scanned PDFs. Converted drawings may need checking
             and cleanup in your CAD software.
           </p>
         </section>
+
+        {/* ABOUT THE TOOL */}
+        <section
+          style={{
+            marginTop: '32px',
+            padding: '24px',
+            background: '#ffffff',
+            border: '1px solid #e5ebf5',
+            borderRadius: '14px',
+            lineHeight: 1.8,
+          }}
+        >
+          <h2 style={{ color: '#18345c', fontSize: '20px' }}>
+            About PDF2CAD Online
+          </h2>
+
+          <p style={{ color: '#61718a', fontSize: '14px' }}>
+            PDF2CAD Online is a browser-based PDF-to-DXF conversion tool
+            designed for architects, CAD draftsmen, engineers and
+            construction professionals. Convert supported PDF drawings
+            into DXF files and review the results in compatible CAD software.
+          </p>
+
+          <p style={{ color: '#61718a', fontSize: '14px' }}>
+            The tool is free to use and designed to make drawing conversion
+            simple and accessible.
+          </p>
+        </section>
       </main>
 
+      {/* FOOTER AND WEBSITE LINKS */}
       <footer
         style={{
           borderTop: '1px solid #e3eaf5',
           background: '#ffffff',
           textAlign: 'center',
-          padding: '24px 16px',
-          fontSize: '12px',
+          padding: '28px 16px',
+          fontSize: '13px',
           lineHeight: 1.8,
           color: '#718096',
         }}
       >
-        <div style={{ fontWeight: 700, color: '#385779' }}>
-          PDF2CAD Online
+        <div
+          style={{
+            fontWeight: 800,
+            color: '#174ea6',
+            fontSize: '17px',
+          }}
+        >
+          📐 PDF2CAD Online
         </div>
-        <div>
+
+        <p style={{ margin: '5px 0' }}>
           A simple tool for CAD and architecture workflows.
-        </div>
-        <div style={{ marginTop: '8px' }}>
+        </p>
+
+        <nav
+          aria-label="Website information"
+          style={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: 'center',
+            gap: '10px 20px',
+            margin: '20px auto',
+            maxWidth: '700px',
+          }}
+        >
+          <a href="/about" style={linkStyle}>About Us</a>
+          <a href="/privacy-policy.html" style={linkStyle}>Privacy Policy</a>
+          <a href="/how-to-convert.html" style={linkStyle}>How to Convert</a>
+          <a href="/features.html" style={linkStyle}>Features</a>
+          <a href="/contact.html" style={linkStyle}>Contact Us</a>
+          <a href="/terms.html" style={linkStyle}>Terms of Use</a>
+        </nav>
+
+        <p style={{ margin: '8px 0' }}>
+          Contact: <a href="mailto:faizkhan469@gmail.com" style={linkStyle}>
+            faizkhan469@gmail.com
+          </a>
+        </p>
+
+        <div
+          style={{
+            borderTop: '1px solid #e3eaf5',
+            paddingTop: '14px',
+            marginTop: '18px',
+            fontSize: '12px',
+          }}
+        >
           Built with the open-source PDF-to-DXF project · MIT License
+        </div>
+
+        <div style={{ fontSize: '12px', marginTop: '5px' }}>
+          © 2026 PDF2CAD Online. All rights reserved.
         </div>
       </footer>
     </div>
