@@ -364,6 +364,15 @@ export default function App() {
                 Common PDF to DXF Conversion Problems and Solutions
               </a>
             </li>
+
+            <li>
+              <a
+                href="/convert-architectural-floor-plan-pdf-to-autocad.html"
+                style={linkStyle}
+              >
+                How to Convert Architectural Floor Plans from PDF to AutoCAD
+              </a>
+            </li>
           </ul>
         </section>
       </main>
