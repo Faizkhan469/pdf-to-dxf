@@ -1,7 +1,7 @@
 
 /**
  * PDF2CAD Online — Demo application
- * Complete homepage with converter and website navigation
+ * Complete homepage with converter, CAD guides and website navigation
  */
 
 import { PdfToDxf } from '../react/PdfToDxf';
@@ -304,6 +304,68 @@ export default function App() {
             simple and accessible.
           </p>
         </section>
+
+        {/* CAD GUIDES */}
+        <section
+          style={{
+            marginTop: '32px',
+            padding: '24px',
+            background: '#ffffff',
+            border: '1px solid #e5ebf5',
+            borderRadius: '14px',
+            lineHeight: 1.8,
+          }}
+        >
+          <h2 style={{ color: '#18345c', fontSize: '22px', marginTop: 0 }}>
+            CAD Guides and Tutorials
+          </h2>
+
+          <p style={{ color: '#61718a', fontSize: '14px' }}>
+            Explore practical guides about PDF-to-DXF conversion, AutoCAD
+            drawing checks and common CAD problems.
+          </p>
+
+          <ul
+            style={{
+              paddingLeft: '22px',
+              marginBottom: 0,
+              lineHeight: 2.2,
+            }}
+          >
+            <li>
+              <a href="/how-to-convert-pdf-to-dxf.html" style={linkStyle}>
+                How to Convert PDF to DXF for AutoCAD
+              </a>
+            </li>
+
+            <li>
+              <a href="/convert-scanned-pdf-to-dxf.html" style={linkStyle}>
+                How to Convert Scanned PDF Drawings to DXF
+              </a>
+            </li>
+
+            <li>
+              <a href="/vector-pdf-vs-scanned-pdf.html" style={linkStyle}>
+                Vector PDF vs Scanned PDF
+              </a>
+            </li>
+
+            <li>
+              <a
+                href="/how-to-scale-check-dxf-in-autocad.html"
+                style={linkStyle}
+              >
+                How to Scale and Check DXF Drawings in AutoCAD
+              </a>
+            </li>
+
+            <li>
+              <a href="/pdf-to-dxf-conversion-problems.html" style={linkStyle}>
+                Common PDF to DXF Conversion Problems and Solutions
+              </a>
+            </li>
+          </ul>
+        </section>
       </main>
 
       {/* FOOTER AND WEBSITE LINKS */}
@@ -352,7 +414,8 @@ export default function App() {
         </nav>
 
         <p style={{ margin: '8px 0' }}>
-          Contact: <a href="mailto:faizkhan469@gmail.com" style={linkStyle}>
+          Contact:{' '}
+          <a href="mailto:faizkhan469@gmail.com" style={linkStyle}>
             faizkhan469@gmail.com
           </a>
         </p>
