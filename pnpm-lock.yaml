@@ -42,7 +42,7 @@ importers:
       gh-pages:
         specifier: ^6.3.0
         version: 6.3.0
-            globals:
+      globals:
         specifier: ^17.4.0
         version: 17.6.0
       react:
