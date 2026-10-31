@@ -409,6 +409,7 @@ export default function App() {
           <a href="/privacy-policy.html" style={linkStyle}>Privacy Policy</a>
           <a href="/how-to-convert.html" style={linkStyle}>How to Convert</a>
           <a href="/features.html" style={linkStyle}>Features</a>
+          <a href="/cad-guides.html" style={linkStyle}>CAD Guides</a>
           <a href="/contact.html" style={linkStyle}>Contact Us</a>
           <a href="/terms.html" style={linkStyle}>Terms of Use</a>
         </nav>
