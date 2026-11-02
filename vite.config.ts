@@ -2,10 +2,9 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { resolve } from 'node:path';
 
-// https://vitejs.dev/guide/build#library-mode
+// https://vitejs.dev/guide/build
 export default defineConfig(({ mode }) => {
   if (mode === 'lib') {
-    // ── Library build (ESM + CJS) ──────────────────────────────────────────
     return {
       plugins: [react()],
       build: {
@@ -13,10 +12,10 @@ export default defineConfig(({ mode }) => {
           entry: resolve(__dirname, 'src/index.ts'),
           name: 'PdfToDxf',
           formats: ['es', 'cjs'],
-          fileName: (format) => `pdf-to-dxf.${format === 'es' ? 'mjs' : 'cjs'}`,
+          fileName: (format) =>
+            `pdf-to-dxf.${format === 'es' ? 'mjs' : 'cjs'}`,
         },
         rollupOptions: {
-          // Peer deps — do not bundle React
           external: ['react', 'react-dom', 'react/jsx-runtime'],
           output: {
             globals: {
@@ -32,7 +31,6 @@ export default defineConfig(({ mode }) => {
   }
 
   if (mode === 'cli') {
-    // ── CLI build (Node ESM) ───────────────────────────────────────────────
     return {
       build: {
         lib: {
@@ -42,8 +40,11 @@ export default defineConfig(({ mode }) => {
         },
         rollupOptions: {
           external: [
-            'node:fs', 'node:path', 'node:url',
-            'pdfjs-dist', '@tarikjabiri/dxf',
+            'node:fs',
+            'node:path',
+            'node:url',
+            'pdfjs-dist',
+            '@tarikjabiri/dxf',
           ],
         },
         outDir: 'dist',
@@ -53,10 +54,10 @@ export default defineConfig(({ mode }) => {
     };
   }
 
-  // ── Demo / GitHub Pages build ─────────────────────────────────────────────
   return {
     plugins: [react()],
     base: mode === 'ghpages' ? '/pdf-to-dxf/' : '/',
+    publicDir: resolve(__dirname, 'public'),
     build: {
       outDir: 'dist-demo',
       emptyOutDir: true,
