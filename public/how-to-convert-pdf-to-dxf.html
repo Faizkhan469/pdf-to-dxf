@@ -4,221 +4,614 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>How to Convert PDF to DXF for AutoCAD | PDF2CAD Online</title>
-  <meta name="description" content="Learn how to convert PDF drawings to DXF for AutoCAD. Follow this practical guide to upload, convert, download and check your CAD drawing.">
+
+  <title>How to Convert PDF to DXF for AutoCAD: Step-by-Step Guide | PDF2CAD Online</title>
+  <meta name="description" content="Learn how to convert PDF drawings to DXF for AutoCAD, prepare vector PDFs, check converted geometry, verify drawing scale and troubleshoot common conversion problems.">
+  <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://pdf-to-dxf.pages.dev/how-to-convert-pdf-to-dxf.html">
+
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
-      font-family: Arial, sans-serif;
-      line-height: 1.7;
-      color: #263445;
-      background: #f5f7fa;
       margin: 0;
+      font-family: Arial, sans-serif;
+      line-height: 1.75;
+      color: #263445;
+      background: #f3f6fa;
     }
-    header, main, footer {
-      max-width: 850px;
-      margin: auto;
-      padding: 24px;
-    }
+
     header {
       background: #123b64;
       color: white;
-      max-width: none;
+      padding: 22px 18px;
     }
-    header a, footer a {
-      color: inherit;
+
+    .header-inner {
+      max-width: 1000px;
+      margin: auto;
     }
-    main {
-      background: white;
-      margin-top: 25px;
-      margin-bottom: 25px;
-      border-radius: 8px;
-    }
-    h1, h2 {
-      color: #123b64;
-    }
+
     header h1 {
+      margin: 0 0 5px;
+      font-size: 25px;
       color: white;
     }
+
+    header p {
+      margin: 0 0 12px;
+      color: #e1eaf4;
+    }
+
+    nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      font-size: 14px;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    main {
+      max-width: 900px;
+      margin: 28px auto;
+      padding: 30px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 3px 15px rgba(20, 45, 75, 0.06);
+    }
+
+    h1, h2, h3 {
+      color: #123b64;
+      line-height: 1.35;
+    }
+
+    main > h1 {
+      font-size: 32px;
+      margin-top: 0;
+    }
+
+    h2 {
+      margin-top: 38px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #e4eaf0;
+      font-size: 23px;
+    }
+
+    h3 {
+      margin-top: 25px;
+      font-size: 18px;
+    }
+
+    p {
+      margin: 14px 0;
+    }
+
+    li {
+      margin-bottom: 9px;
+    }
+
     a {
       color: #0875c1;
     }
+
     .button {
       display: inline-block;
+      padding: 12px 21px;
       background: #0875c1;
       color: white;
-      padding: 12px 20px;
-      border-radius: 5px;
+      border-radius: 6px;
       text-decoration: none;
       font-weight: bold;
+      margin: 8px 0;
     }
+
+    .button:hover {
+      background: #075b98;
+    }
+
+    .note {
+      background: #f0f6fc;
+      border-left: 4px solid #0875c1;
+      padding: 15px 18px;
+      margin: 20px 0;
+      border-radius: 4px;
+    }
+
+    .warning {
+      background: #fff8e8;
+      border-left: 4px solid #d69b24;
+      padding: 15px 18px;
+      margin: 20px 0;
+      border-radius: 4px;
+    }
+
+    .step {
+      padding: 15px 18px;
+      margin: 18px 0;
+      border: 1px solid #e2e9f0;
+      border-radius: 7px;
+    }
+
+    .step h3 {
+      margin-top: 0;
+    }
+
+    .related-links li {
+      margin-bottom: 12px;
+    }
+
     footer {
+      max-width: 900px;
+      margin: auto;
+      padding: 20px 24px 35px;
       text-align: center;
       color: #536273;
+      font-size: 14px;
+    }
+
+    footer a {
+      margin: 0 6px;
+    }
+
+    @media (max-width: 600px) {
+      main {
+        margin: 12px;
+        padding: 20px;
+      }
+
+      main > h1 {
+        font-size: 26px;
+      }
+
+      h2 {
+        font-size: 21px;
+      }
+
+      header h1 {
+        font-size: 22px;
+      }
     }
   </style>
 </head>
+
 <body>
 
 <header>
-  <h1>PDF2CAD Online</h1>
-  <p>Free PDF to DXF Conversion for CAD Drawings</p>
-  <a href="/">Home – PDF to DXF Converter</a>
+  <div class="header-inner">
+    <h1>PDF2CAD Online</h1>
+    <p>Free PDF to DXF Conversion for CAD Drawings</p>
+
+    <nav>
+      <a href="/">Home / Converter</a>
+      <a href="/features.html">Features</a>
+      <a href="/cad-guides.html">CAD Guides</a>
+      <a href="/about.html">About</a>
+      <a href="/contact.html">Contact</a>
+    </nav>
+  </div>
 </header>
 
 <main>
-  <h1>How to Convert PDF to DXF for AutoCAD</h1>
+
+  <h1>How to Convert PDF to DXF for AutoCAD: Step-by-Step Guide</h1>
 
   <p>
-    PDF drawings are commonly used in architecture, engineering and
-    construction projects. However, when you need to edit a drawing,
-    a PDF may not provide the flexibility of a CAD file.
-    DXF is a widely supported drawing exchange format that can be
-    opened and edited in AutoCAD and other CAD applications.
+    PDF drawings are widely used in architecture, engineering and construction.
+    They are convenient for sharing plans, elevations, sections and technical
+    details. However, a PDF is not always convenient when you need to modify
+    individual drawing elements in CAD software.
   </p>
 
   <p>
-    This guide explains how to convert a supported PDF drawing into
-    a DXF file and check the result before using it in a project.
-  </p>
-
-  <h2>What is a PDF to DXF conversion?</h2>
-
-  <p>
-    PDF to DXF conversion changes supported drawing information from
-    a PDF document into CAD-compatible entities. Depending on the
-    original PDF, these may include lines, curves and other drawing
-    elements.
+    DXF is a drawing exchange format supported by AutoCAD and many other CAD
+    applications. Converting a suitable PDF into DXF can make supported
+    geometry available for further CAD editing.
   </p>
 
   <p>
-    The quality of the result depends on how the original PDF was
-    created. Vector PDFs generally provide better conversion results
-    than scanned images.
-  </p>
-
-  <h2>Step 1: Open the PDF to DXF converter</h2>
-
-  <p>
-    Visit our free online converter using the link below.
+    This guide explains how to prepare a PDF, convert it using PDF2CAD Online,
+    open the resulting file in AutoCAD and check the geometry and dimensions.
+    It also explains the limitations you should understand before relying on
+    the converted drawing.
   </p>
 
   <p>
-    <a class="button" href="/">Open PDF to DXF Converter</a>
+    <a class="button" href="/">Open the Free PDF to DXF Converter</a>
   </p>
 
-  <h2>Step 2: Upload your PDF drawing</h2>
+  <h2>1. Understand what happens during PDF to DXF conversion</h2>
 
   <p>
-    Select the PDF drawing from your computer using the upload
-    option. Make sure the file opens correctly and contains the
-    drawing you want to convert.
+    A PDF can contain different kinds of information, including vector paths,
+    text, raster images and embedded graphics. A PDF-to-DXF converter attempts
+    to interpret supported drawing information and represent it as CAD
+    entities.
   </p>
 
-  <h2>Step 3: Convert the PDF to DXF</h2>
-
-  <p>
-    Start the conversion process. The tool will process supported
-    drawing information and prepare a DXF file.
-  </p>
-
-  <p>
-    Conversion results may vary depending on PDF structure,
-    embedded graphics and drawing complexity.
-  </p>
-
-  <h2>Step 4: Download the DXF file</h2>
-
-  <p>
-    When conversion is complete, download the generated DXF file
-    to your computer. Keep the original PDF as a reference.
-  </p>
-
-  <h2>Step 5: Open the DXF file in AutoCAD</h2>
-
-  <p>
-    Open AutoCAD, select the DXF file and inspect the drawing.
-    Check dimensions, line positions, curves, text and other
-    important elements.
-  </p>
-
-  <p>
-    Do not assume that converted dimensions or scale are correct.
-    Compare the output with the original PDF and verify critical
-    measurements before using the drawing for construction or
-    professional documentation.
-  </p>
-
-  <h2>Vector PDF vs scanned PDF</h2>
-
-  <h3>Vector PDF</h3>
-  <p>
-    A vector PDF contains drawing elements such as lines and curves.
-    These elements may be converted into editable CAD geometry.
-  </p>
-
-  <h3>Scanned PDF</h3>
-  <p>
-    A scanned PDF is usually an image of a paper drawing.
-    It does not necessarily contain editable vector geometry.
-    Image-based drawings may require raster-to-vector tracing
-    before they can become usable CAD drawings.
-  </p>
-
-  <h2>Common PDF to DXF conversion problems</h2>
+  <p>Depending on the source PDF and converter capabilities, the output may include:</p>
 
   <ul>
-    <li><strong>Missing lines:</strong> Some PDF elements may not be supported.</li>
-    <li><strong>Incorrect scale:</strong> Check drawing dimensions in AutoCAD.</li>
-    <li><strong>Scanned drawings:</strong> Image-only PDFs may not convert into editable geometry.</li>
-    <li><strong>Complex drawings:</strong> Large or complicated PDFs may produce incomplete results.</li>
-    <li><strong>Text differences:</strong> Fonts and text formatting may not be preserved exactly.</li>
+    <li>Lines and connected line segments.</li>
+    <li>Curves and supported path geometry.</li>
+    <li>Text information, where supported.</li>
+    <li>Other supported vector drawing elements.</li>
   </ul>
 
-  <h2>Tips for better conversion results</h2>
+  <p>
+    Conversion does not automatically recreate every original CAD property.
+    Original layers, blocks, dimensions, line types and other object
+    information may not be preserved exactly.
+  </p>
+
+  <h2>2. Check whether your PDF is suitable for conversion</h2>
+
+  <p>
+    Before uploading a drawing, it helps to understand whether the PDF contains
+    vector information or is simply a scanned image. This is one of the most
+    important factors affecting conversion quality.
+  </p>
+
+  <h3>Vector PDF drawings</h3>
+
+  <p>
+    A vector PDF contains paths and geometric information. For example, a PDF
+    exported directly from AutoCAD or another drafting application often
+    contains vector lines and curves. These elements are generally better
+    candidates for conversion into editable DXF geometry.
+  </p>
+
+  <h3>Scanned PDF drawings</h3>
+
+  <p>
+    A scanned PDF is usually a photograph or image of a printed drawing.
+    Although it may look like a normal CAD drawing, its lines are pixels
+    rather than individual vector entities. A standard vector conversion
+    process may not turn those pixels into editable lines.
+  </p>
+
+  <div class="note">
+    <strong>Practical tip:</strong> If you can select individual text or
+    drawing elements in a PDF viewer, the document may contain vector
+    information. This is a useful clue, but it does not guarantee that every
+    element will convert successfully.
+  </div>
+
+  <p>
+    Read more:
+    <a href="/vector-pdf-vs-scanned-pdf.html">Vector PDF vs Scanned PDF: What Is the Difference?</a>
+  </p>
+
+  <h2>3. Prepare your PDF drawing</h2>
+
+  <p>
+    A little preparation can make the conversion process easier and help you
+    identify problems in the output.
+  </p>
 
   <ul>
-    <li>Use the original exported PDF whenever possible.</li>
-    <li>Prefer vector-based PDF drawings.</li>
-    <li>Check the DXF file in AutoCAD after conversion.</li>
-    <li>Verify scale and dimensions against known measurements.</li>
-    <li>Keep a backup of the original PDF.</li>
+    <li>Use the original PDF exported from CAD software whenever available.</li>
+    <li>Check that the PDF opens correctly in a PDF viewer.</li>
+    <li>Identify the page containing the drawing you want to convert.</li>
+    <li>Note one or more known dimensions for later scale verification.</li>
+    <li>Keep an unchanged copy of the original PDF.</li>
+  </ul>
+
+  <p>
+    For multi-page documents, make sure you understand which page or pages
+    contain the required drawing information.
+  </p>
+
+  <h2>4. Convert PDF to DXF using PDF2CAD Online</h2>
+
+  <div class="step">
+    <h3>Step 1: Open the converter</h3>
+    <p>
+      Visit the PDF2CAD Online homepage. The converter is available directly
+      on the website without requiring an account.
+    </p>
+    <a class="button" href="/">Open PDF2CAD Online</a>
+  </div>
+
+  <div class="step">
+    <h3>Step 2: Select your PDF file</h3>
+    <p>
+      Use the file selection option to choose the PDF drawing from your
+      computer. Select the correct document and allow the converter to
+      load it.
+    </p>
+  </div>
+
+  <div class="step">
+    <h3>Step 3: Start the conversion</h3>
+    <p>
+      Start the conversion process using the available converter controls.
+      The tool processes supported PDF drawing information and prepares
+      the DXF output.
+    </p>
+    <p>
+      Processing time can vary with the number of pages, file size and
+      drawing complexity.
+    </p>
+  </div>
+
+  <div class="step">
+    <h3>Step 4: Download the DXF file</h3>
+    <p>
+      When conversion finishes, use the download option to save the
+      generated DXF file. Keep the original PDF so you can compare the
+      converted geometry with the source drawing.
+    </p>
+  </div>
+
+  <div class="note">
+    <strong>Privacy note:</strong> PDF2CAD Online is designed to process
+    conversion locally in your browser. The website does not intentionally
+    upload your PDF to its conversion server. Avoid using any online tool
+    for confidential drawings unless its privacy practices meet your
+    organization's requirements.
+  </div>
+
+  <h2>5. Open and inspect the DXF in AutoCAD</h2>
+
+  <p>
+    A successful download does not necessarily mean the drawing is ready
+    for professional use. Open the DXF in AutoCAD or another compatible
+    CAD application and inspect the result.
+  </p>
+
+  <ol>
+    <li>Start AutoCAD.</li>
+    <li>Open the downloaded DXF file.</li>
+    <li>Use Zoom Extents to locate the drawing.</li>
+    <li>Zoom into important areas to inspect individual entities.</li>
+    <li>Compare the converted drawing with the original PDF.</li>
+    <li>Check important dimensions and geometry before editing.</li>
+  </ol>
+
+  <h3>What should you inspect?</h3>
+
+  <ul>
+    <li><strong>Missing geometry:</strong> Check whether important walls, outlines or details are absent.</li>
+    <li><strong>Duplicate lines:</strong> Look for overlapping entities that may affect editing.</li>
+    <li><strong>Text:</strong> Check whether labels and notes are present and readable.</li>
+    <li><strong>Curves:</strong> Inspect curved walls, arcs and other curved elements.</li>
+    <li><strong>Drawing position:</strong> Check that the drawing is located correctly in the CAD workspace.</li>
+    <li><strong>Dimensions:</strong> Compare known measurements with the original PDF.</li>
+  </ul>
+
+  <h2>6. Verify drawing scale in AutoCAD</h2>
+
+  <p>
+    Scale verification is particularly important when working with
+    architectural floor plans and technical drawings. A converted DXF
+    should not be assumed to have the correct real-world dimensions.
+  </p>
+
+  <p>
+    For example, suppose a dimension shown on the original architectural
+    drawing is 5,000 mm. If the corresponding distance in the DXF measures
+    4,800 drawing units, the geometry needs to be checked and scaled.
+  </p>
+
+  <p>
+    You can use the following general calculation:
+  </p>
+
+  <div class="note">
+    <strong>Scale factor = Required measurement ÷ Current measurement</strong>
+    <p>
+      Example: 5,000 ÷ 4,800 = 1.04167
+    </p>
+    <p>
+      This means the measured geometry would need a scale factor of
+      approximately 1.04167 to match that reference dimension, assuming
+      the drawing units and measurement are understood correctly.
+    </p>
+  </div>
+
+  <h3>General scale-checking procedure</h3>
+
+  <ol>
+    <li>Find a dimension clearly shown in the original PDF.</li>
+    <li>Measure the same distance in AutoCAD using the DIST command.</li>
+    <li>Compare the measured value with the expected dimension.</li>
+    <li>Investigate any difference before applying a scale correction.</li>
+    <li>Check another known dimension to confirm that the correction is consistent.</li>
+  </ol>
+
+  <div class="warning">
+    <strong>Important:</strong> Do not scale a drawing based on only one
+    measurement if the geometry may be distorted. Verify more than one
+    reference dimension and confirm the intended drawing units.
+  </div>
+
+  <p>
+    Detailed instructions:
+    <a href="/how-to-scale-check-dxf-in-autocad.html">How to Scale and Check a DXF Drawing in AutoCAD</a>
+  </p>
+
+  <h2>7. Practical example: Converting an architectural floor plan</h2>
+
+  <p>
+    Imagine you receive a PDF containing an architectural floor plan with
+    room layouts, wall outlines, door openings, window positions and
+    dimension annotations.
+  </p>
+
+  <p>
+    Your objective is to use the drawing as a starting point for further
+    CAD work. A sensible workflow is:
+  </p>
+
+  <ol>
+    <li>Check whether the floor plan PDF contains vector geometry.</li>
+    <li>Identify a known dimension, such as a room width or building length.</li>
+    <li>Convert the supported PDF information into DXF.</li>
+    <li>Open the DXF in AutoCAD and locate the floor plan.</li>
+    <li>Compare walls, openings and other important elements with the PDF.</li>
+    <li>Measure the known dimension and verify the drawing scale.</li>
+    <li>Correct any missing or inaccurate information manually.</li>
+  </ol>
+
+  <p>
+    The result may provide a useful CAD starting point, but the amount of
+    editing required depends on the original PDF and conversion quality.
+    A converted drawing should not be treated as a verified architectural
+    construction drawing without professional review.
+  </p>
+
+  <h2>8. Common PDF to DXF conversion problems and solutions</h2>
+
+  <h3>Some lines are missing</h3>
+  <p>
+    The missing elements may use unsupported PDF features or may not be
+    represented as ordinary vector paths. Compare the affected area with
+    the source PDF and consider whether the original file can be exported
+    again from the source CAD application.
+  </p>
+
+  <h3>The drawing appears too large or too small</h3>
+  <p>
+    Check the original PDF's dimensions and compare them with measurements
+    in AutoCAD. Confirm the drawing units before applying a scale correction.
+  </p>
+
+  <h3>The scanned drawing is not editable</h3>
+  <p>
+    An image-based PDF does not contain ordinary vector line entities.
+    Raster-to-vector tracing or manual drafting may be required.
+  </p>
+
+  <h3>Text is missing or looks different</h3>
+  <p>
+    Font embedding, text encoding and PDF text representation can affect
+    conversion. Compare labels with the source PDF and replace or correct
+    text manually when necessary.
+  </p>
+
+  <h3>The DXF opens but the drawing is difficult to find</h3>
+  <p>
+    Use Zoom Extents in AutoCAD. If the drawing is still not visible,
+    inspect the file and check whether the converted geometry is located
+    far from the expected origin.
+  </p>
+
+  <h3>The output contains too many small entities</h3>
+  <p>
+    Some PDF paths may be represented by many individual segments. This
+    can happen with complex or finely detailed drawings. Review the geometry
+    and simplify it where appropriate using your CAD software.
+  </p>
+
+  <p>
+    More troubleshooting advice:
+    <a href="/pdf-to-dxf-conversion-problems.html">PDF to DXF Conversion Problems and Solutions</a>
+  </p>
+
+  <h2>9. Tips for better PDF to DXF results</h2>
+
+  <ul>
+    <li>Use a vector PDF exported directly from CAD software whenever possible.</li>
+    <li>Avoid repeatedly converting or compressing the original PDF.</li>
+    <li>Check the source document before starting conversion.</li>
+    <li>Keep the original PDF as a visual and dimensional reference.</li>
+    <li>Inspect the converted drawing at different zoom levels.</li>
+    <li>Verify more than one known dimension when checking scale.</li>
+    <li>Correct missing or inaccurate geometry before professional use.</li>
+    <li>Save a separate working copy before making major changes.</li>
   </ul>
 
   <h2>Frequently asked questions</h2>
 
   <h3>Can I convert PDF to DXF for free?</h3>
   <p>
-    PDF2CAD Online provides a free converter for supported PDF
-    drawings. Conversion results depend on the input file.
+    Yes. PDF2CAD Online provides a free PDF-to-DXF conversion tool for
+    supported drawings. No registration or subscription is required.
+    Conversion results depend on the structure and complexity of the PDF.
   </p>
 
-  <h3>Can I edit a DXF file in AutoCAD?</h3>
+  <h3>Can I open a DXF file in AutoCAD?</h3>
   <p>
-    Yes. AutoCAD supports DXF files, although the editability
-    of individual elements depends on the conversion result.
+    Yes. DXF is a drawing exchange format supported by AutoCAD. You can
+    open the converted file and inspect or edit the entities that were
+    successfully converted.
   </p>
 
-  <h3>Can scanned PDF drawings be converted?</h3>
+  <h3>Will the converted DXF be exactly the same as the original PDF?</h3>
   <p>
-    Scanned PDFs are image-based. They generally need raster-to-vector
-    tracing to create editable CAD geometry.
+    Not necessarily. Some text, formatting, layers, line properties or
+    unsupported elements may not be preserved. Always compare the output
+    with the original document.
   </p>
 
-  <h3>Is the converted drawing ready for construction?</h3>
+  <h3>Can I convert a scanned PDF into editable CAD lines?</h3>
   <p>
-    Not automatically. Always check dimensions, scale and geometry
-    against the original drawing before professional use.
+    A scanned PDF normally contains image pixels rather than vector
+    geometry. It generally requires raster-to-vector tracing or manual
+    drafting to create editable CAD entities.
   </p>
 
-  <h2>Conclusion</h2>
+  <h3>Will the DXF have the correct scale automatically?</h3>
+  <p>
+    Do not assume that it will. Measure known dimensions in AutoCAD and
+    compare them with the original PDF before relying on the drawing.
+  </p>
+
+  <h3>Is a converted DXF ready for construction work?</h3>
+  <p>
+    No automatic conversion should be treated as professional verification.
+    Check dimensions, geometry, annotations and drawing requirements.
+    A qualified professional should review the drawing before it is used
+    for construction or other critical work.
+  </p>
+
+  <h3>Do I need to install software to use PDF2CAD Online?</h3>
+  <p>
+    The converter runs in a supported web browser, so a separate desktop
+    conversion program is not required. You will still need compatible
+    CAD software if you want to inspect or edit the resulting DXF.
+  </p>
+
+  <h2>Related CAD guides</h2>
+
+  <ul class="related-links">
+    <li>
+      <a href="/vector-pdf-vs-scanned-pdf.html">Vector PDF vs Scanned PDF: Understand the Difference</a>
+    </li>
+    <li>
+      <a href="/convert-scanned-pdf-to-dxf.html">How to Convert Scanned PDF to DXF</a>
+    </li>
+    <li>
+      <a href="/how-to-scale-check-dxf-in-autocad.html">How to Scale and Check DXF in AutoCAD</a>
+    </li>
+    <li>
+      <a href="/pdf-to-dxf-conversion-problems.html">Common PDF to DXF Conversion Problems</a>
+    </li>
+    <li>
+      <a href="/convert-architectural-floor-plan-pdf-to-autocad.html">Convert an Architectural Floor Plan PDF to AutoCAD</a>
+    </li>
+    <li>
+      <a href="/cad-guides.html">Browse All PDF2CAD CAD Guides</a>
+    </li>
+  </ul>
+
+  <h2>Start your PDF to DXF conversion</h2>
 
   <p>
-    Converting PDF drawings to DXF can make supported drawing
-    information easier to work with in CAD software. By checking
-    the original PDF, converting it carefully and reviewing the
-    output in AutoCAD, you can identify problems before using
-    the drawing in your workflow.
+    Converting a suitable PDF drawing into DXF can help you continue
+    working with supported geometry in CAD software. The important steps
+    are to choose a suitable source PDF, inspect the converted result
+    and verify dimensions before using it.
   </p>
 
   <p>
@@ -230,11 +623,19 @@
 <footer>
   <p>
     <a href="/">Home</a> |
-    <a href="/about">About</a> |
+    <a href="/about.html">About</a> |
+    <a href="/features.html">Features</a> |
+    <a href="/cad-guides.html">CAD Guides</a> |
     <a href="/contact.html">Contact</a> |
     <a href="/privacy-policy.html">Privacy Policy</a> |
     <a href="/terms.html">Terms of Use</a>
   </p>
+
+  <p>
+    Questions or feedback?
+    <a href="mailto:faizkhan469@gmail.com">Contact PDF2CAD Online</a>
+  </p>
+
   <p>© 2026 PDF2CAD Online. All rights reserved.</p>
 </footer>
 
