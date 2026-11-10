@@ -1,72 +1,724 @@
-How to Convert Scanned PDF Drawings to CAD
-Many architectural, civil engineering and construction drawings are shared as scanned PDF documents. These files often contain photographs or images of printed drawings instead of editable CAD lines and curves.
 
-If you want to edit a scanned drawing in AutoCAD, you need to understand the difference between image-based PDFs and vector PDFs. This guide explains the process and the checks required to prepare a scanned drawing for CAD work.
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-What is a scanned PDF drawing?
-A scanned PDF is generally created by scanning a paper drawing or inserting an image into a PDF document. The drawing appears on the screen, but its lines may be part of a single image rather than separate CAD objects.
+  <title>How to Convert Scanned PDF to DXF for AutoCAD | PDF2CAD Online</title>
+  <meta name="description" content="Learn how to convert scanned PDF drawings into editable CAD geometry. Understand raster-to-vector conversion, scan preparation, tracing, AutoCAD scale checks and common problems.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://pdf-to-dxf.pages.dev/convert-scanned-pdf-to-dxf.html">
 
-This means that simply changing the PDF into a DXF file does not necessarily create editable lines, walls, dimensions or other drawing elements.
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-Vector PDF vs scanned PDF
-Vector PDF
-A vector PDF contains drawing information such as lines, curves and text. Supported vector elements can often be converted into CAD geometry.
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      line-height: 1.75;
+      color: #263445;
+      background: #f3f6fa;
+    }
 
-Scanned PDF
-A scanned PDF contains image pixels. The drawing must generally be traced or processed using raster-to-vector software to create editable CAD entities.
+    header {
+      background: #123b64;
+      color: white;
+      padding: 22px 18px;
+    }
 
-Can a scanned PDF be converted directly to DXF?
-It depends on the conversion tool. A converter designed to extract vector information may not recognize the lines inside a scanned image as CAD geometry.
+    .header-inner {
+      max-width: 1000px;
+      margin: auto;
+    }
 
-For scanned drawings, raster-to-vector conversion is usually required. The resulting geometry should always be checked and corrected before professional use.
+    header h1 {
+      margin: 0 0 5px;
+      font-size: 25px;
+      color: white;
+    }
 
-How does raster-to-vector conversion work?
-Image preparation: The scanned drawing is checked for clarity, rotation and contrast.
-Image cleanup: Noise, stains and unwanted marks may be removed.
-Line recognition: Software identifies visible lines and edges.
-Vector tracing: Recognized shapes are converted into lines, curves or polylines.
-CAD export: The traced geometry is saved in a format such as DXF.
-Manual checking: A CAD user reviews and corrects the output.
-How to prepare a scanned drawing
-Use the clearest available scan.
-Prefer a high-resolution image with readable linework.
-Make sure the drawing is not heavily rotated or distorted.
-Remove unnecessary borders and marks when possible.
-Keep a copy of the original scanned PDF.
-Checking the drawing in AutoCAD
-After raster-to-vector conversion, open the DXF file in AutoCAD and inspect the geometry. Check whether lines are connected, curves are represented correctly and unnecessary objects have been created.
+    header p {
+      margin: 0 0 12px;
+      color: #e1eaf4;
+    }
 
-Use a known dimension from the original drawing to check scale. If the drawing is not at the correct scale, adjust it carefully using verified measurements.
+    nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      font-size: 14px;
+    }
 
-Text, dimensions, symbols and complex architectural details may need manual recreation or correction.
+    nav a {
+      color: white;
+      text-decoration: none;
+    }
 
-Common problems with scanned drawings
-Low image quality: Blurry scans make line recognition difficult.
-Skewed drawings: A rotated scan can affect tracing accuracy.
-Broken lines: Faint or damaged lines may not be recognized completely.
-Extra geometry: Stains and image noise may be traced as unwanted objects.
-Incorrect scale: Scanning and resizing can change the original dimensions.
-When should you use a PDF to DXF converter?
-If your PDF contains vector-based drawing information, a PDF-to-DXF converter may extract supported elements directly. You can try our free converter for supported PDF drawings.
+    nav a:hover {
+      text-decoration: underline;
+    }
 
-Open PDF to DXF Converter
+    main {
+      max-width: 900px;
+      margin: 28px auto;
+      padding: 30px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 3px 15px rgba(20, 45, 75, 0.06);
+    }
 
-If your PDF is only a scanned image, you may need dedicated raster-to-vector software instead.
+    h1, h2, h3 {
+      color: #123b64;
+      line-height: 1.35;
+    }
 
-Frequently asked questions
-Why does my scanned PDF not produce editable CAD lines?
-Because the drawing may be stored as an image. Image pixels are not automatically separate CAD entities.
+    main > h1 {
+      font-size: 31px;
+      margin-top: 0;
+    }
 
-Can AutoCAD convert a scanned PDF into editable lines?
-AutoCAD can work with attached raster images, but tracing or specialized raster-to-vector tools may be needed to create editable geometry.
+    h2 {
+      margin-top: 38px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #e4eaf0;
+      font-size: 23px;
+    }
 
-Does a higher-resolution scan always give better results?
-Higher resolution can help preserve detail, but image clarity, contrast, paper condition and scan distortion also affect the result.
+    h3 {
+      margin-top: 25px;
+      font-size: 18px;
+    }
 
-Can converted scanned drawings be used for construction?
-Not without professional checking. Verify dimensions, geometry and scale against reliable project information before using the drawing.
+    p {
+      margin: 14px 0;
+    }
 
-Conclusion
-Converting scanned PDF drawings into editable CAD files requires more than ordinary PDF conversion. Raster-to-vector processing, cleanup, tracing and careful AutoCAD checking are important steps in preparing usable CAD geometry.
+    li {
+      margin-bottom: 9px;
+    }
 
-Try PDF2CAD Online – Free Converter
+    a {
+      color: #0875c1;
+    }
+
+    .button {
+      display: inline-block;
+      padding: 12px 21px;
+      background: #0875c1;
+      color: white;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: bold;
+      margin: 8px 0;
+    }
+
+    .button:hover {
+      background: #075b98;
+    }
+
+    .note {
+      background: #f0f6fc;
+      border-left: 4px solid #0875c1;
+      padding: 15px 18px;
+      margin: 20px 0;
+      border-radius: 4px;
+    }
+
+    .warning {
+      background: #fff8e8;
+      border-left: 4px solid #d69b24;
+      padding: 15px 18px;
+      margin: 20px 0;
+      border-radius: 4px;
+    }
+
+    .step {
+      padding: 15px 18px;
+      margin: 18px 0;
+      border: 1px solid #e2e9f0;
+      border-radius: 7px;
+    }
+
+    .step h3 {
+      margin-top: 0;
+    }
+
+    footer {
+      max-width: 900px;
+      margin: auto;
+      padding: 20px 24px 35px;
+      text-align: center;
+      color: #536273;
+      font-size: 14px;
+    }
+
+    footer a {
+      margin: 0 6px;
+    }
+
+    @media (max-width: 600px) {
+      main {
+        margin: 12px;
+        padding: 20px;
+      }
+
+      main > h1 {
+        font-size: 26px;
+      }
+
+      h2 {
+        font-size: 21px;
+      }
+
+      header h1 {
+        font-size: 22px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="header-inner">
+    <h1>PDF2CAD Online</h1>
+    <p>Free PDF to DXF Conversion for CAD Drawings</p>
+
+    <nav>
+      <a href="/">Home / Converter</a>
+      <a href="/features.html">Features</a>
+      <a href="/cad-guides.html">CAD Guides</a>
+      <a href="/about.html">About</a>
+      <a href="/contact.html">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <h1>How to Convert Scanned PDF Drawings to CAD and DXF</h1>
+
+  <p>
+    Architectural, engineering and construction drawings are often
+    distributed as PDF documents. Some are exported directly from
+    CAD applications, while others are created by scanning printed
+    drawings or converting photographs into PDF files.
+  </p>
+
+  <p>
+    The difference matters when you want to edit a drawing in AutoCAD.
+    A vector PDF can contain lines and curves that may be extracted
+    as CAD geometry. A scanned PDF usually contains an image, so its
+    visible lines are not automatically editable CAD entities.
+  </p>
+
+  <p>
+    This guide explains how scanned drawings work, what raster-to-vector
+    conversion involves, how to prepare a scan and how to inspect the
+    resulting DXF before using it in a CAD workflow.
+  </p>
+
+  <div class="note">
+    <strong>Important distinction:</strong> A standard PDF-to-DXF
+    converter that extracts vector paths is not necessarily a
+    raster-to-vector tracing tool. If your PDF contains only a scanned
+    image, a separate tracing process may be required.
+  </div>
+
+  <h2>1. What is a scanned PDF drawing?</h2>
+
+  <p>
+    A scanned PDF is usually produced by placing a paper drawing in
+    a scanner or photographing it and saving the resulting image
+    inside a PDF document.
+  </p>
+
+  <p>
+    The drawing may look like a normal architectural plan on screen,
+    but the visible walls, doors, windows and dimensions can all be
+    part of one image rather than individual geometric objects.
+  </p>
+
+  <p>
+    For example, a scanned floor plan may show room boundaries and
+    door openings clearly. However, clicking on a wall in a PDF viewer
+    does not select a CAD line because the wall may simply be a group
+    of image pixels.
+  </p>
+
+  <h2>2. Vector PDF vs scanned PDF</h2>
+
+  <h3>Vector PDF</h3>
+
+  <p>
+    A vector PDF contains information describing paths, lines, curves
+    and sometimes text. It is commonly generated by exporting a drawing
+    from AutoCAD or another drafting application.
+  </p>
+
+  <p>
+    Supported vector elements can often be extracted and converted
+    into CAD-compatible geometry. The result may still need checking
+    because not every PDF feature is necessarily supported.
+  </p>
+
+  <h3>Scanned PDF</h3>
+
+  <p>
+    A scanned PDF contains raster image information. Its lines are
+    made from pixels rather than separate vector entities. Converting
+    the file format alone does not automatically recreate individual
+    walls, curves or dimensions.
+  </p>
+
+  <p>
+    Scanned drawings generally need raster-to-vector processing,
+    manual tracing or redrafting before they can become editable
+    CAD geometry.
+  </p>
+
+  <p>
+    Read the comparison:
+    <a href="/vector-pdf-vs-scanned-pdf.html">Vector PDF vs Scanned PDF: Main Differences</a>
+  </p>
+
+  <h2>3. Can a scanned PDF be converted directly to DXF?</h2>
+
+  <p>
+    The answer depends on the software being used. A converter that
+    extracts vector information from a PDF may not recognize the
+    visible lines inside a scanned image as separate drawing entities.
+  </p>
+
+  <p>
+    Raster-to-vector software uses image-processing and tracing
+    techniques to identify linework and create approximate vector
+    representations. The result is then exported into a CAD-compatible
+    format such as DXF.
+  </p>
+
+  <div class="warning">
+    <strong>Do not confuse file conversion with vectorization.</strong>
+    Changing an image-based PDF into a DXF container does not guarantee
+    that the drawing will contain editable CAD lines.
+  </div>
+
+  <h2>4. How raster-to-vector conversion works</h2>
+
+  <p>
+    Raster-to-vector conversion is a process that attempts to transform
+    image-based drawing information into geometric objects. The exact
+    workflow varies between software applications.
+  </p>
+
+  <div class="step">
+    <h3>Step 1: Image preparation</h3>
+    <p>
+      The scanned drawing is checked for rotation, image quality,
+      contrast, cropping and visible distortion. A clean source image
+      makes the later tracing process easier.
+    </p>
+  </div>
+
+  <div class="step">
+    <h3>Step 2: Image cleanup</h3>
+    <p>
+      Unwanted marks, stains, background noise and unnecessary borders
+      may be removed. Some tools also allow threshold adjustments to
+      separate dark linework from the lighter paper background.
+    </p>
+  </div>
+
+  <div class="step">
+    <h3>Step 3: Line and edge recognition</h3>
+    <p>
+      Image-processing algorithms examine the pixels and identify
+      potential edges, connected lines and shapes. Results depend
+      on the quality and clarity of the original scan.
+    </p>
+  </div>
+
+  <div class="step">
+    <h3>Step 4: Vector tracing</h3>
+    <p>
+      Recognized linework is converted into vector entities such as
+      line segments, polylines and curves. Some elements may need
+      manual tracing or correction.
+    </p>
+  </div>
+
+  <div class="step">
+    <h3>Step 5: CAD export</h3>
+    <p>
+      The traced geometry can be exported to a format such as DXF
+      for opening in compatible CAD software.
+    </p>
+  </div>
+
+  <div class="step">
+    <h3>Step 6: Manual checking</h3>
+    <p>
+      A CAD user reviews the geometry, checks dimensions, removes
+      unwanted objects and corrects incomplete or inaccurate lines.
+    </p>
+  </div>
+
+  <h2>5. How to prepare a scanned drawing before tracing</h2>
+
+  <p>
+    Good image preparation can reduce tracing problems. Before using
+    raster-to-vector software, review the following points.
+  </p>
+
+  <h3>Use a clear scan</h3>
+
+  <p>
+    Choose the clearest available version of the drawing. Blurry lines,
+    faded printing and low contrast can make it difficult for software
+    to distinguish drawing elements from the background.
+  </p>
+
+  <h3>Check image resolution</h3>
+
+  <p>
+    Resolution affects how much detail is available in the scanned
+    image. A higher-resolution scan can preserve small details better,
+    but it cannot restore information that was missing or blurred
+    in the original paper drawing.
+  </p>
+
+  <p>
+    For many ordinary printed technical drawings, scanning around
+    300 DPI is a reasonable starting point. Fine details may benefit
+    from a higher resolution, depending on the scanner and original
+    drawing quality.
+  </p>
+
+  <h3>Correct rotation and skew</h3>
+
+  <p>
+    Check whether the drawing is tilted or distorted. A skewed scan
+    can make horizontal and vertical lines appear at incorrect angles.
+    Straightening the image before tracing can improve the workflow.
+  </p>
+
+  <h3>Improve contrast carefully</h3>
+
+  <p>
+    Dark linework against a clean light background is usually easier
+    to recognize. However, excessive contrast adjustment can remove
+    faint details or merge nearby lines.
+  </p>
+
+  <h3>Keep the original document</h3>
+
+  <p>
+    Always retain an unchanged copy of the scanned PDF. It provides
+    a reference for checking dimensions, annotations and details
+    after vectorization.
+  </p>
+
+  <h2>6. Working with a scanned architectural floor plan</h2>
+
+  <p>
+    Consider an architectural floor plan that has been scanned from
+    a printed drawing. It contains external walls, internal partitions,
+    door swings, windows, room names and dimension annotations.
+  </p>
+
+  <p>
+    A practical preparation and tracing workflow would be:
+  </p>
+
+  <ol>
+    <li>Open the PDF and inspect the entire floor plan.</li>
+    <li>Check that walls and important details are readable.</li>
+    <li>Identify any rotation, skew or image distortion.</li>
+    <li>Prepare a clean image for raster-to-vector processing.</li>
+    <li>Trace the main wall outlines and other required geometry.</li>
+    <li>Review doors, windows and smaller architectural details separately.</li>
+    <li>Export the traced geometry to DXF.</li>
+    <li>Open the DXF in AutoCAD and compare it with the original PDF.</li>
+  </ol>
+
+  <p>
+    It is often useful to trace major building geometry first and
+    then handle smaller details. This makes it easier to identify
+    missing sections and review the drawing systematically.
+  </p>
+
+  <div class="note">
+    <strong>Practical drafting advice:</strong> Do not assume that
+    automatically traced walls, door openings or dimensions are
+    geometrically accurate. Compare important features with the
+    original drawing and correct them before using the CAD file.
+  </div>
+
+  <h2>7. Check the converted drawing in AutoCAD</h2>
+
+  <p>
+    Once the DXF has been exported, open it in AutoCAD or another
+    compatible CAD application. Inspect the drawing before beginning
+    further drafting work.
+  </p>
+
+  <h3>Check line continuity</h3>
+
+  <p>
+    Look for broken lines, small gaps, disconnected wall outlines
+    and unwanted intersections. Use suitable editing commands to
+    correct the geometry where necessary.
+  </p>
+
+  <h3>Check unnecessary geometry</h3>
+
+  <p>
+    Scanned images can contain stains, paper marks, shadows and
+    background noise. These may be interpreted as drawing elements
+    during tracing. Remove unwanted entities carefully.
+  </p>
+
+  <h3>Check curves and corners</h3>
+
+  <p>
+    Review curved walls, arcs, rounded details and intersections.
+    Some tracing methods approximate curves using multiple short
+    line segments rather than creating smooth CAD curves.
+  </p>
+
+  <h3>Check text and dimensions</h3>
+
+  <p>
+    Room labels, dimensions, symbols and annotations may need to be
+    recreated or corrected manually. Image tracing does not always
+    identify text as editable text objects.
+  </p>
+
+  <h2>8. Verify the scale of the DXF drawing</h2>
+
+  <p>
+    Scanning, printing and image resizing can change the apparent
+    dimensions of a drawing. For that reason, never assume that
+    the traced DXF has the correct scale automatically.
+  </p>
+
+  <p>
+    Find a reliable dimension on the original drawing and measure
+    the corresponding distance in AutoCAD.
+  </p>
+
+  <div class="note">
+    <strong>Scale factor = Required measurement ÷ Current measurement</strong>
+    <p>
+      Example: If a known building dimension is 10,000 mm but the
+      corresponding CAD measurement is 9,800 units:
+    </p>
+    <p>
+      10,000 ÷ 9,800 = 1.02041
+    </p>
+    <p>
+      The approximate correction factor is 1.02041, provided the
+      measurement and drawing units are understood correctly.
+    </p>
+  </div>
+
+  <h3>Scale-checking procedure</h3>
+
+  <ol>
+    <li>Find a clearly labelled dimension in the original drawing.</li>
+    <li>Measure the same distance in AutoCAD using DIST.</li>
+    <li>Compare the measured value with the known dimension.</li>
+    <li>Check another known dimension to identify possible distortion.</li>
+    <li>Apply a correction only after confirming the intended units.</li>
+    <li>Recheck important measurements after scaling.</li>
+  </ol>
+
+  <p>
+    Further reading:
+    <a href="/how-to-scale-check-dxf-in-autocad.html">How to Scale and Check DXF in AutoCAD</a>
+  </p>
+
+  <h2>9. Common problems when converting scanned drawings</h2>
+
+  <h3>Low image quality</h3>
+  <p>
+    Blurry, faded or pixelated drawings make line recognition difficult.
+    Use a clearer scan when available and avoid unnecessary image
+    compression.
+  </p>
+
+  <h3>Skewed or distorted scans</h3>
+  <p>
+    A tilted or stretched image can affect line alignment and
+    dimensions. Correct image rotation and distortion before tracing
+    whenever possible.
+  </p>
+
+  <h3>Broken or incomplete lines</h3>
+  <p>
+    Faint printing, damaged paper and low contrast can cause gaps
+    in recognized geometry. Review important outlines and repair
+    missing sections manually.
+  </p>
+
+  <h3>Extra unwanted geometry</h3>
+  <p>
+    Stains, shadows, handwriting and background marks can be traced
+    as unwanted entities. Clean the image before processing and
+    inspect the DXF after export.
+  </p>
+
+  <h3>Incorrect scale</h3>
+  <p>
+    Scanned drawings may have been resized during printing or scanning.
+    Use reliable reference dimensions to check the final CAD geometry.
+  </p>
+
+  <h3>Missing text and symbols</h3>
+  <p>
+    Raster-to-vector software may trace the outlines of text without
+    recreating editable text objects. Symbols and annotations may
+    also need manual drafting.
+  </p>
+
+  <p>
+    More troubleshooting help:
+    <a href="/pdf-to-dxf-conversion-problems.html">PDF to DXF Conversion Problems and Solutions</a>
+  </p>
+
+  <h2>10. When should you use PDF2CAD Online?</h2>
+
+  <p>
+    PDF2CAD Online is designed to extract supported drawing
+    information from suitable PDF documents and prepare DXF files.
+    It is most useful when your PDF contains vector-based drawing
+    elements that can be processed by the converter.
+  </p>
+
+  <p>
+    If your PDF contains only a scanned image, a dedicated
+    raster-to-vector tool or manual tracing workflow may be needed
+    before you can obtain editable CAD geometry.
+  </p>
+
+  <p>
+    You can try the free converter with a supported PDF drawing:
+  </p>
+
+  <p>
+    <a class="button" href="/">Open PDF to DXF Converter</a>
+  </p>
+
+  <h2>Frequently asked questions</h2>
+
+  <h3>Why does my scanned PDF not produce editable CAD lines?</h3>
+  <p>
+    The drawing may be stored as an image rather than vector paths.
+    Image pixels are not automatically converted into individual
+    CAD entities by a standard vector extraction process.
+  </p>
+
+  <h3>Can AutoCAD open a scanned PDF?</h3>
+  <p>
+    AutoCAD can work with attached raster images, but an image is
+    not the same as editable CAD geometry. Tracing or specialized
+    raster-to-vector processing may be needed to create lines and
+    other entities.
+  </p>
+
+  <h3>Does a higher-resolution scan always give better results?</h3>
+  <p>
+    Higher resolution can preserve more detail, but clarity, contrast,
+    paper condition, image distortion and line quality also affect
+    the result. A high-resolution blurry image may still be difficult
+    to trace accurately.
+  </p>
+
+  <h3>Can a scanned floor plan become an editable DXF?</h3>
+  <p>
+    Yes, it can be converted using suitable raster-to-vector software
+    or manual drafting. The amount of correction required depends
+    on the scan and the tracing method.
+  </p>
+
+  <h3>Will dimensions and room names be converted automatically?</h3>
+  <p>
+    Not necessarily. Text, dimension annotations and symbols may
+    need to be recreated or corrected manually after tracing.
+  </p>
+
+  <h3>Can converted scanned drawings be used for construction?</h3>
+  <p>
+    They should not be used for construction without professional
+    checking. Verify dimensions, geometry, scale and project
+    requirements against reliable source information.
+  </p>
+
+  <h2>Related PDF to DXF guides</h2>
+
+  <ul>
+    <li>
+      <a href="/how-to-convert-pdf-to-dxf.html">How to Convert PDF to DXF for AutoCAD</a>
+    </li>
+    <li>
+      <a href="/vector-pdf-vs-scanned-pdf.html">Vector PDF vs Scanned PDF</a>
+    </li>
+    <li>
+      <a href="/how-to-scale-check-dxf-in-autocad.html">How to Scale and Check DXF in AutoCAD</a>
+    </li>
+    <li>
+      <a href="/convert-architectural-floor-plan-pdf-to-autocad.html">Convert an Architectural Floor Plan PDF to AutoCAD</a>
+    </li>
+    <li>
+      <a href="/pdf-to-dxf-conversion-problems.html">PDF to DXF Conversion Problems and Solutions</a>
+    </li>
+    <li>
+      <a href="/cad-guides.html">Browse All CAD Guides</a>
+    </li>
+  </ul>
+
+  <h2>Conclusion</h2>
+
+  <p>
+    Converting scanned PDF drawings into editable CAD files requires
+    more than changing the document format. Image preparation,
+    raster-to-vector tracing, geometry cleanup, scale verification
+    and manual inspection are all important parts of the process.
+  </p>
+
+  <p>
+    Understanding the difference between vector PDFs and scanned
+    PDFs helps you choose the right workflow and avoid expecting
+    ordinary PDF conversion to perform automatic image tracing.
+  </p>
+
+  <p>
+    <a class="button" href="/">Try PDF2CAD Online – Free Converter</a>
+  </p>
+
+</main>
+
+<footer>
+  <p>
+    <a href="/">Home</a> |
+    <a href="/about.html">About</a> |
+    <a href="/features.html">Features</a> |
+    <a href="/cad-guides.html">CAD Guides</a> |
+    <a href="/contact.html">Contact</a> |
+    <a href="/privacy-policy.html">Privacy Policy</a> |
+    <a href="/terms.html">Terms of Use</a>
+  </p>
+
+  <p>
+    Questions or feedback?
+    <a href="mailto:faizkhan469@gmail.com">Contact PDF2CAD Online</a>
+  </p>
+
+  <p>© 2026 PDF2CAD Online. All rights reserved.</p>
+</footer>
+
+</body>
+</html>
