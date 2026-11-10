@@ -9,12 +9,12 @@
 
   <url>
     <loc>https://pdf-to-dxf.pages.dev/about.html</loc>
-    <priority>0.8</priority>
+    <priority>0.6</priority>
   </url>
 
   <url>
     <loc>https://pdf-to-dxf.pages.dev/contact.html</loc>
-    <priority>0.8</priority>
+    <priority>0.6</priority>
   </url>
 
   <url>
@@ -23,18 +23,13 @@
   </url>
 
   <url>
-    <loc>https://pdf-to-dxf.pages.dev/privacy-policy.html</loc>
-    <priority>0.5</priority>
-  </url>
-
-  <url>
-    <loc>https://pdf-to-dxf.pages.dev/terms.html</loc>
-    <priority>0.5</priority>
+    <loc>https://pdf-to-dxf.pages.dev/cad-guides.html</loc>
+    <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://pdf-to-dxf.pages.dev/how-to-convert-pdf-to-dxf.html</loc>
-    <priority>0.9</priority>
+    <priority>0.8</priority>
   </url>
 
   <url>
@@ -43,17 +38,12 @@
   </url>
 
   <url>
-    <loc>https://pdf-to-dxf.pages.dev/cad-guides.html</loc>
-    <priority>0.9</priority>
-  </url>
-
-  <url>
-    <loc>https://pdf-to-dxf.pages.dev/convert-architectural-floor-plan-pdf-to-autocad.html</loc>
+    <loc>https://pdf-to-dxf.pages.dev/convert-scanned-pdf-to-dxf.html</loc>
     <priority>0.8</priority>
   </url>
 
   <url>
-    <loc>https://pdf-to-dxf.pages.dev/convert-scanned-pdf-to-dxf.html</loc>
+    <loc>https://pdf-to-dxf.pages.dev/vector-pdf-vs-scanned-pdf.html</loc>
     <priority>0.8</priority>
   </url>
 
@@ -68,8 +58,18 @@
   </url>
 
   <url>
-    <loc>https://pdf-to-dxf.pages.dev/vector-pdf-vs-scanned-pdf.html</loc>
+    <loc>https://pdf-to-dxf.pages.dev/convert-architectural-floor-plan-pdf-to-autocad.html</loc>
     <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://pdf-to-dxf.pages.dev/privacy-policy.html</loc>
+    <priority>0.3</priority>
+  </url>
+
+  <url>
+    <loc>https://pdf-to-dxf.pages.dev/terms.html</loc>
+    <priority>0.3</priority>
   </url>
 
 </urlset>
