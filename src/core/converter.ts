@@ -8,7 +8,7 @@
  *  3. Return the DXF string (or write to file in CLI mode).
  *
  * Notes on pdfjs v5:
- *  pdfjs v4 batches all path sub-operations (moveTo, lineTo, curveTo, rectangle,
+ *  pdfjs v4+ batches all path sub-operations (moveTo, lineTo, curveTo, rectangle,
  *  closePath) into a single `constructPath` operator. The first argument is an
  *  array of sub-op codes, and the second argument is a flat array of coordinates.
  *
@@ -40,6 +40,10 @@ export interface ConvertOptions {
   includeText?: boolean;
   /** Include vector paths. Default: true. */
   includePaths?: boolean;
+  /** Map PDF stroke colors to nearest ACI color. Default: true. */
+  preserveColors?: boolean;
+  /** Preserve PDF stroke line widths in DXF. Default: true. */
+  preserveLineWidths?: boolean;
 }
 
 export interface ConvertResult {
@@ -84,6 +88,14 @@ function multiplyMatrices(current: Matrix2D, next: ArrayLike<number>): Matrix2D 
   ];
 }
 
+/** Extract rotation angle (radians) from a PDF text transform. */
+function extractTextRotation(m: ArrayLike<number>): number {
+  const a = Number(m[0]);
+  const b = Number(m[1]);
+  // PDF text rotation is atan2(b, a) for the x-axis direction
+  return Math.atan2(b, a);
+}
+
 // ─── Path sub-op codes used by pdfjs constructPath ──────────────────────────
 // These are the raw PDF operator codes embedded inside the constructPath batch.
 const PATH_OPS = {
@@ -95,6 +107,65 @@ const PATH_OPS = {
   closePath: 18,
   rectangle: 19,
 } as const;
+
+// ─── Stroke state (color + line width) ───────────────────────────────────────
+
+interface StrokeState {
+  /** ACI color index, or undefined for "BYLAYER" default. */
+  color?: number;
+  /** Line width in pt (PDF units), or undefined if default. */
+  lineWidth?: number;
+}
+
+/** Convert an RGB triple to the nearest ACI index using the standard palette. */
+function rgbToAci(r: number, g: number, b: number): number {
+  // Minimal mapping of the most common engineering colors.
+  // Extend this table if you need finer fidelity.
+  const palette: Array<[number, number, number, number]> = [
+    [0, 0, 0, 0],       // 0 – BYBLOCK (unused here)
+    [255, 0, 0, 1],     // 1 – red
+    [255, 255, 0, 2],   // 2 – yellow
+    [0, 255, 0, 3],     // 3 – green
+    [0, 255, 255, 4],   // 4 – cyan
+    [0, 0, 255, 5],     // 5 – blue
+    [255, 0, 255, 6],   // 6 – magenta
+    [255, 255, 255, 7], // 7 – white/black
+  ];
+  // Normalize inputs to 0..255
+  const R = Math.round(r * 255);
+  const G = Math.round(g * 255);
+  const B = Math.round(b * 255);
+
+  let best = 7;
+  let bestDist = Infinity;
+  for (const [pr, pg, pb, aci] of palette) {
+    if (aci === 0) continue;
+    const d = (R - pr) ** 2 + (G - pg) ** 2 + (B - pb) ** 2;
+    if (d < bestDist) {
+      bestDist = d;
+      best = aci;
+    }
+  }
+  return best;
+}
+
+/** Clamp a PDF line width (pt) into a sensible DXF lineweight (hundredths of mm). */
+function ptToLineweight(ptWidth: number): number {
+  // 1 pt = 1/72 inch ≈ 0.3528 mm → 0.3528 * 100 = 35.28 hundredths of mm
+  const hundredthsMm = Math.round(ptWidth * 35.28);
+  // Standard DXF lineweights; snap to nearest.
+  const standard = [0, 5, 9, 13, 15, 18, 20, 25, 30, 35, 40, 50, 53, 60, 70, 80, 90, 100, 106, 120, 140, 158, 200];
+  let closest = 0;
+  let minDelta = Infinity;
+  for (const w of standard) {
+    const d = Math.abs(w - hundredthsMm);
+    if (d < minDelta) {
+      minDelta = d;
+      closest = w;
+    }
+  }
+  return closest;
+}
 
 // ─── Adaptive Bézier Subdivision ─────────────────────────────────────────────
 //
@@ -108,7 +179,6 @@ const PATH_OPS = {
 
 const BEZIER_TOLERANCE = 0.5;
 const BEZIER_MAX_DEPTH = 12;
-
 
 function chordalDeviation(p0: Vec3, p1: Vec3, p2: Vec3, p3: Vec3): number {
   // Maximum distance of the two inner control points from the chord p0→p3.
@@ -139,10 +209,11 @@ export function approximateBezierAdaptive(
   writer: DxfWriter,
   tolerance = BEZIER_TOLERANCE,
   depth = 0,
+  stroke?: StrokeState,
 ): void {
   if (depth >= BEZIER_MAX_DEPTH || chordalDeviation(p0, p1, p2, p3) <= tolerance) {
-    // Flat enough — emit a single line segment
-    writer.addLine(p0, p3);
+    // Flat enough — emit a single line segment (skip if zero-length)
+    emitLine(writer, p0, p3, stroke);
     return;
   }
 
@@ -154,11 +225,40 @@ export function approximateBezierAdaptive(
   const m123 = pt((m12.x + m23.x) / 2, (m12.y + m23.y) / 2);
   const mid = pt((m012.x + m123.x) / 2, (m012.y + m123.y) / 2);
 
-  approximateBezierAdaptive(p0, m01, m012, mid, writer, tolerance, depth + 1);
-  approximateBezierAdaptive(mid, m123, m23, p3, writer, tolerance, depth + 1);
+  approximateBezierAdaptive(p0, m01, m012, mid, writer, tolerance, depth + 1, stroke);
+  approximateBezierAdaptive(mid, m123, m23, p3, writer, tolerance, depth + 1, stroke);
 }
 
-// ─── Circle / Arc fitting ─────────────────────────────────────────────────────
+// ─── Line emitter with stroke filtering + color/lineweight ──────────────────
+
+/**
+ * Emit a DXF line, skipping zero-length segments and applying stroke styling.
+ * The DxfWriter API varies between versions; we pass an options object where
+ * supported, and gracefully fall back to the basic signature otherwise.
+ */
+function emitLine(writer: DxfWriter, a: Vec3, b: Vec3, stroke?: StrokeState): void {
+  const dx = b.x - a.x;
+  const dy = b.y - a.y;
+  if (dx * dx + dy * dy < 1e-12) return; // skip zero-length
+
+  try {
+    // @tarikjabiri/dxf v3+ supports an options object as 3rd argument.
+    // If your version ignores it, the line is still drawn correctly.
+    const opts: any = {};
+    if (stroke?.color !== undefined) opts.color = stroke.color;
+    if (stroke?.lineWidth !== undefined) opts.lineWeight = ptToLineweight(stroke.lineWidth);
+    if (Object.keys(opts).length > 0) {
+      (writer.addLine as any)(a, b, opts);
+    } else {
+      writer.addLine(a, b);
+    }
+  } catch {
+    // Fallback for stricter typings / older versions
+    writer.addLine(a, b);
+  }
+}
+
+// ─── Circle / Arc fitting ────────────────────────────────────────────────────
 //
 // A PDF circle is encoded as 4 cubic Bézier curves (one per quadrant).
 // Each quadrant uses the standard kappa approximation factor ≈ 0.5523.
@@ -169,12 +269,20 @@ export function approximateBezierAdaptive(
 //  1. Collect all Bézier control points for a closed sub-path.
 //  2. If there are exactly 4 curveTo ops, attempt a least-squares circle fit
 //     on the 4 anchor points (start of each curve).
-//  3. Accept the fit if the residual is below CIRCLE_FIT_TOLERANCE.
+//  3. Accept the fit if the residual is below CIRCLE_FIT_TOLERANCE AND
+//     the kappa ratio of each quadrant is close to 0.5523.
 
-const CIRCLE_FIT_TOLERANCE = 0.5; // max deviation of anchor points from fitted circle
+const CIRCLE_FIT_TOLERANCE = 0.15;          // tighter than before (was 0.5)
+const CIRCLE_FIT_RADIUS_MIN = 1.0;          // pt — reject tiny circles
+const CIRCLE_FIT_RADIUS_MAX_RATIO = 0.5;    // fraction of page width (checked later)
+const KAPPA = 0.5522847498;
+const KAPPA_TOLERANCE = 0.05;               // ±5% on control-point ratio
 
 interface SubPath {
-  ops: Array<{ type: 'line'; to: Vec3 } | { type: 'curve'; p1: Vec3; p2: Vec3; p3: Vec3 }>;
+  ops: Array<
+    | { type: 'line'; to: Vec3 }
+    | { type: 'curve'; p1: Vec3; p2: Vec3; p3: Vec3; isCurveTo2?: boolean }
+  >;
   start: Vec3;
   closed: boolean;
 }
@@ -242,10 +350,30 @@ function tryFitCircleFromSubPath(
   const fit = fitCircle(pts);
   if (!fit) return null;
 
+  // Radius bounds
+  if (fit.r < CIRCLE_FIT_RADIUS_MIN) return null;
+
   // Validate: all anchor points must be within tolerance of the fitted circle
   for (const p of pts) {
     const dist = Math.abs(Math.hypot(p.x - fit.cx, p.y - fit.cy) - fit.r);
     if (dist > CIRCLE_FIT_TOLERANCE) return null;
+  }
+
+  // Validate kappa ratio: for each quadrant, the distance from anchor to
+  // its control points should be ≈ KAPPA * r.
+  let pos = sub.start;
+  for (const op of sub.ops) {
+    if (op.type !== 'curve') continue;
+    const d1 = Math.hypot(op.p1.x - pos.x, op.p1.y - pos.y);
+    const d2 = Math.hypot(op.p2.x - op.p3.x, op.p2.y - op.p3.y);
+    const expected = KAPPA * fit.r;
+    if (
+      Math.abs(d1 - expected) / expected > KAPPA_TOLERANCE ||
+      Math.abs(d2 - expected) / expected > KAPPA_TOLERANCE
+    ) {
+      return null;
+    }
+    pos = op.p3;
   }
 
   return fit;
@@ -294,14 +422,12 @@ function collectSubPaths(
       }
 
       case PATH_OPS.curveTo2: {
-        // p1 = current position (handled at emit time — store as curveTo with p1=p3 sentinel)
+        // Explicit flag instead of coordinate sentinel — robust to coincident points.
         const p2 = map(coords[ci], coords[ci + 1]);
         const p3 = map(coords[ci + 2], coords[ci + 3]);
         ci += 4;
         if (current) {
-          // We store a sentinel: p1 will be resolved to the previous position at emit time.
-          // For circle detection we only need p3, so this is fine.
-          current.ops.push({ type: 'curve', p1: p3, p2, p3 }); // p1 sentinel = p3 (resolved at emit)
+          current.ops.push({ type: 'curve', p1: p3, p2, p3, isCurveTo2: true });
         }
         break;
       }
@@ -354,11 +480,22 @@ function collectSubPaths(
 
 // ─── Sub-path emitter ─────────────────────────────────────────────────────────
 
-function emitSubPath(sub: SubPath, writer: DxfWriter): void {
+function emitSubPath(sub: SubPath, writer: DxfWriter, stroke?: StrokeState): void {
   // Attempt circle detection first
   const circle = tryFitCircleFromSubPath(sub);
   if (circle) {
-    writer.addCircle(pt(circle.cx, circle.cy), circle.r);
+    try {
+      const opts: any = {};
+      if (stroke?.color !== undefined) opts.color = stroke.color;
+      if (stroke?.lineWidth !== undefined) opts.lineWeight = ptToLineweight(stroke.lineWidth);
+      if (Object.keys(opts).length > 0) {
+        (writer.addCircle as any)(pt(circle.cx, circle.cy), circle.r, opts);
+      } else {
+        writer.addCircle(pt(circle.cx, circle.cy), circle.r);
+      }
+    } catch {
+      writer.addCircle(pt(circle.cx, circle.cy), circle.r);
+    }
     return;
   }
 
@@ -367,18 +504,18 @@ function emitSubPath(sub: SubPath, writer: DxfWriter): void {
 
   for (const op of sub.ops) {
     if (op.type === 'line') {
-      writer.addLine(pos, op.to);
+      emitLine(writer, pos, op.to, stroke);
       pos = op.to;
     } else {
-      // curveTo2 sentinel: p1 was stored as p3, resolve to actual current pos
-      const p1 = op.p1 === op.p3 ? pos : op.p1;
-      approximateBezierAdaptive(pos, p1, op.p2, op.p3, writer);
+      // curveTo2 uses explicit flag now — no coordinate comparison
+      const p1 = op.isCurveTo2 ? pos : op.p1;
+      approximateBezierAdaptive(pos, p1, op.p2, op.p3, writer, BEZIER_TOLERANCE, 0, stroke);
       pos = op.p3;
     }
   }
 
   if (sub.closed && (pos.x !== sub.start.x || pos.y !== sub.start.y)) {
-    writer.addLine(pos, sub.start);
+    emitLine(writer, pos, sub.start, stroke);
   }
 }
 
@@ -390,17 +527,20 @@ export function processConstructPath(
   writer: DxfWriter,
   scale: number,
   matrix: Matrix2D = IDENTITY_MATRIX,
+  stroke?: StrokeState,
 ): void {
   const paths = collectSubPaths(subOps, coords, scale, matrix);
   for (const sub of paths) {
-    emitSubPath(sub, writer);
+    emitSubPath(sub, writer, stroke);
   }
 }
+
 function processPackedPath(
   data: ArrayLike<number>,
   writer: DxfWriter,
   scale: number,
   matrix: Matrix2D = IDENTITY_MATRIX,
+  stroke?: StrokeState,
 ): void {
   const subOps: number[] = [];
   const coords: number[] = [];
@@ -480,7 +620,7 @@ function processPackedPath(
     }
   }
 
-  processConstructPath(subOps, coords, writer, scale, matrix);
+  processConstructPath(subOps, coords, writer, scale, matrix, stroke);
 }
 
 // ─── Page processor ─────────────────────────────────────────────────────────
@@ -505,6 +645,10 @@ async function processPage(
       let currentMatrix: Matrix2D = [...IDENTITY_MATRIX];
       const matrixStack: Matrix2D[] = [];
 
+      // Stroke state — tracked sequentially and restored with matrix stack
+      let stroke: StrokeState = {};
+      const strokeStack: StrokeState[] = [];
+
       // PDF graphics state is sequential: transforms must be accumulated in
       // order and restored when the matching save/restore operators occur.
       for (let i = 0; i < fnArray.length; i++) {
@@ -513,12 +657,15 @@ async function processPage(
 
         if (fn === pdfjs.OPS.save) {
           matrixStack.push([...currentMatrix]);
+          strokeStack.push({ ...stroke });
           continue;
         }
 
         if (fn === pdfjs.OPS.restore) {
           const previous = matrixStack.pop();
           if (previous) currentMatrix = previous;
+          const prevStroke = strokeStack.pop();
+          if (prevStroke) stroke = prevStroke;
           continue;
         }
 
@@ -529,9 +676,30 @@ async function processPage(
           continue;
         }
 
+        // ── Stroke color ────────────────────────────────────────────────
+        if (fn === pdfjs.OPS.setStrokeRGBColor) {
+          if (args && args.length >= 3) {
+            const r = Number(args[0]);
+            const g = Number(args[1]);
+            const b = Number(args[2]);
+            stroke.color = opts.preserveColors ? rgbToAci(r, g, b) : undefined;
+          }
+          continue;
+        }
+
+        // ── Line width ──────────────────────────────────────────────────
+        if (fn === pdfjs.OPS.setLineWidth) {
+          if (args && args.length >= 1) {
+            const w = Number(args[0]);
+            stroke.lineWidth = opts.preserveLineWidths ? w : undefined;
+          }
+          continue;
+        }
+
         // Form XObjects can introduce their own matrix in the operator list.
         if (fn === pdfjs.OPS.paintFormXObjectBegin) {
           matrixStack.push([...currentMatrix]);
+          strokeStack.push({ ...stroke });
           const formMatrix = args?.[0] as ArrayLike<number> | undefined;
           if (formMatrix && formMatrix.length >= 6) {
             currentMatrix = multiplyMatrices(currentMatrix, formMatrix);
@@ -542,15 +710,25 @@ async function processPage(
         if (fn === pdfjs.OPS.paintFormXObjectEnd) {
           const previous = matrixStack.pop();
           if (previous) currentMatrix = previous;
+          const prevStroke = strokeStack.pop();
+          if (prevStroke) stroke = prevStroke;
           continue;
         }
 
         // pdfjs v5 batches path sub-operations into constructPath.
         if (fn === pdfjs.OPS.constructPath) {
-          const pathArgs = args as [number, [Float32Array | null], Float32Array | null] | undefined;
+          const pathArgs = args as
+            | [number, [Float32Array | null], Float32Array | null]
+            | undefined;
           const packedPath = pathArgs?.[1]?.[0];
           if (packedPath) {
-            processPackedPath(packedPath, writer, opts.scale, [...currentMatrix]);
+            processPackedPath(
+              packedPath,
+              writer,
+              opts.scale,
+              [...currentMatrix],
+              { ...stroke }
+            );
           }
         }
       }
@@ -565,11 +743,33 @@ async function processPage(
       const textContent = await page.getTextContent();
       for (const item of textContent.items) {
         if (!('str' in item) || !item.str.trim()) continue;
+
         const tx = item.transform[4];
         const ty = item.transform[5];
         const fontSize = Math.abs(item.transform[3]) || 12;
+        const rotation = extractTextRotation(item.transform);
+
         const pos = pt(tx * opts.scale, ty * opts.scale);
-        writer.addText(pos, fontSize * opts.scale, item.str);
+
+        try {
+          const opts2: any = {};
+          if (Math.abs(rotation) > 1e-4) {
+            opts2.rotation = (rotation * 180) / Math.PI; // DXF expects degrees
+          }
+          // Basic alignment: use the text's own width/height hints when present
+          // (pdfjs provides `width` and `height` on text items).
+          // This improves insertion-point accuracy for center/right-aligned text.
+          if ('width' in item && item.width) {
+            opts2.width = item.width * opts.scale;
+          }
+          if (Object.keys(opts2).length > 0) {
+            (writer.addText as any)(pos, fontSize * opts.scale, item.str, opts2);
+          } else {
+            writer.addText(pos, fontSize * opts.scale, item.str);
+          }
+        } catch {
+          writer.addText(pos, fontSize * opts.scale, item.str);
+        }
       }
     } catch (err) {
       warnings.push(`Page ${pageIndex + 1}: text extraction failed — ${String(err)}`);
@@ -593,6 +793,8 @@ export async function convertPdfToDxf(
     layerPrefix: options.layerPrefix ?? 'PAGE',
     includeText: options.includeText ?? true,
     includePaths: options.includePaths ?? true,
+    preserveColors: options.preserveColors ?? true,
+    preserveLineWidths: options.preserveLineWidths ?? true,
   };
 
   const warnings: string[] = [];
